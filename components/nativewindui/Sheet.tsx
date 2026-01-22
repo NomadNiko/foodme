@@ -1,52 +1,20 @@
-import {
-  BottomSheetBackdrop,
-  BottomSheetBackdropProps,
-  BottomSheetModal,
-} from '@gorhom/bottom-sheet';
-import * as React from 'react';
+import React from 'react';
+import { View, Modal, TouchableOpacity } from 'react-native';
 
-import { useColorScheme } from '~/lib/useColorScheme';
-
-const Sheet = React.forwardRef<
-  BottomSheetModal,
-  React.ComponentPropsWithoutRef<typeof BottomSheetModal>
->(({ index = 0, backgroundStyle, style, handleIndicatorStyle, ...props }, ref) => {
-  const { colors } = useColorScheme();
-
-  const renderBackdrop = React.useCallback(
-    (props: BottomSheetBackdropProps) => <BottomSheetBackdrop {...props} disappearsOnIndex={-1} />,
-    []
-  );
+// Stub implementation for development mode
+export function Sheet({ children, isOpen, onClose }: { 
+  children: React.ReactNode; 
+  isOpen: boolean; 
+  onClose: () => void; 
+}) {
   return (
-    <BottomSheetModal
-      ref={ref}
-      index={0}
-      backgroundStyle={
-        backgroundStyle ?? {
-          backgroundColor: colors.card,
-        }
-      }
-      style={
-        style ?? {
-          borderWidth: 1,
-          borderColor: colors.grey5,
-          borderTopStartRadius: 16,
-          borderTopEndRadius: 16,
-        }
-      }
-      handleIndicatorStyle={
-        handleIndicatorStyle ?? {
-          backgroundColor: colors.grey4,
-        }
-      }
-      backdropComponent={renderBackdrop}
-      {...props}
-    />
+    <Modal visible={isOpen} transparent animationType="slide">
+      <View style={{ flex: 1, backgroundColor: 'rgba(0,0,0,0.5)', justifyContent: 'flex-end' }}>
+        <TouchableOpacity style={{ flex: 1 }} onPress={onClose} />
+        <View style={{ backgroundColor: '#1a1a1a', borderTopLeftRadius: 20, borderTopRightRadius: 20, padding: 20 }}>
+          {children}
+        </View>
+      </View>
+    </Modal>
   );
-});
-
-function useSheetRef() {
-  return React.useRef<BottomSheetModal>(null);
 }
-
-export { Sheet, useSheetRef };

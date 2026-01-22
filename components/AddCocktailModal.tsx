@@ -4,7 +4,7 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import FontAwesome from '@expo/vector-icons/FontAwesome';
 import { Text } from '~/components/nativewindui/Text';
 import { Container } from '~/components/Container';
-import { useUserCocktails, useVenues } from '~/lib/contexts/UserContext';
+import { useUserCocktails, useVenues } from '~/lib/contexts/UserContextStubs';
 import { CocktailIngredientInput } from '~/lib/types/user';
 import { UserCocktail } from '~/lib/types/cocktail';
 

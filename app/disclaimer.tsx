@@ -3,31 +3,18 @@ import { View, Alert } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { router } from 'expo-router';
 import { Image } from 'expo-image';
-// import FontAwesome from '@expo/vector-icons/FontAwesome'; // Unused
 import { Text } from '~/components/nativewindui/Text';
 import { Button } from '~/components/nativewindui/Button';
-import { DisclaimerStorage } from '~/lib/utils/disclaimerStorage';
-import { useUserSettings } from '~/lib/contexts/UserContext';
+import { useUserSettings } from '~/lib/contexts/UserContextStubs';
 import { APP_CONFIG } from '~/config/app';
 
 export default function DisclaimerScreen() {
   const { settings } = useUserSettings();
 
   const handleAccept = async () => {
-    try {
-      // Store that user has accepted the disclaimer
-      DisclaimerStorage.setDisclaimerAccepted();
-
-      // After accepting disclaimer, check subscription status
-      if (settings?.subscriptionStatus === 'free') {
-        // Free user - show paywall
-        router.replace('/paywall');
-      } else {
-        // Premium user - go to main app
-        router.replace('/popular');
-      }
-    } catch (error) {
-      console.error('Failed to save disclaimer acceptance:', error);
+    // In development mode, just navigate to popular
+    router.replace('/(tabs)/popular');
+  };
       Alert.alert('Error', 'Failed to save your response. Please try again.');
     }
   };

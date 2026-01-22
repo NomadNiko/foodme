@@ -6,7 +6,7 @@ import FontAwesome from '@expo/vector-icons/FontAwesome';
 import { useState } from 'react';
 
 import { Text } from '~/components/nativewindui/Text';
-import { useUser } from '~/lib/contexts/UserContext';
+import { useUser } from '~/lib/contexts/UserContextStubs';
 
 export default function Modal() {
   const { clearCustomData } = useUser();

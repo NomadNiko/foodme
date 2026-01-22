@@ -12,7 +12,7 @@ import {
   useFavorites,
   useUserSettings,
   useUserCocktails 
-} from '~/lib/contexts/UserContext';
+} from '~/lib/contexts/UserContextStubs';
 import { useCocktails } from '~/lib/hooks/useCocktails';
 import { Venue } from '~/lib/types/user';
 import { Cocktail, UserCocktail } from '~/lib/types/cocktail';
