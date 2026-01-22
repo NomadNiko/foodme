@@ -41,9 +41,6 @@
       "icon": "./assets/icon-ios.png",
       "infoPlist": {
         "ITSAppUsesNonExemptEncryption": false
-      },
-      "entitlements": {
-        "com.apple.developer.in-app-payments": []
       }
     },
     "android": {
@@ -52,10 +49,7 @@
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#ffffff"
       },
-      "package": "us.nomadsoft.foodme",
-      "permissions": [
-        "com.android.vending.BILLING"
-      ]
+      "package": "us.nomadsoft.foodme"
     },
     "extra": {
       "router": {},

@@ -319,7 +319,7 @@ export class UserDataManager {
 
     try {
       const newVenue: Venue = {
-        id: `venue_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`,
+        id: `venue_${Date.now()}_${Math.random().toString(36).substring(2, 11)}`,
         name,
         ingredients: [],
         cocktailIds: [],
@@ -642,7 +642,7 @@ export class UserDataManager {
       const allVenueIds = [defaultVenue.id, ...venueIds.filter(id => id !== defaultVenue.id)];
 
       const newCocktail: UserCocktail = {
-        id: `user_cocktail_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`,
+        id: `user_cocktail_${Date.now()}_${Math.random().toString(36).substring(2, 11)}`,
         name: name.trim(),
         glass: glass.trim(),
         instructions: instructions.trim(),

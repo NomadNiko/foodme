@@ -1,17 +1,11 @@
 import { useEffect } from 'react';
-import { View, Text } from 'react-native';
+import { router } from 'expo-router';
 
 export default function Index() {
-  // This component should never actually render in production
-  // The root layout handles all routing logic
-  
   useEffect(() => {
-    console.log('Index component mounted - this should not happen in production');
+    // Skip all authentication and go straight to the main app
+    router.replace('/(tabs)/popular');
   }, []);
 
-  return (
-    <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center', backgroundColor: '#000' }}>
-      <Text style={{ color: '#fff' }}>Redirecting...</Text>
-    </View>
-  );
+  return null;
 }
