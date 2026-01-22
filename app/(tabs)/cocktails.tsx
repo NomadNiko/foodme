@@ -19,7 +19,7 @@ import { CocktailCard } from '~/components/CocktailCard';
 import { SearchFilters } from '~/components/SearchFilters';
 import { useCocktails } from '~/lib/hooks/useCocktails';
 import { SearchFilters as SearchFiltersType, Cocktail } from '~/lib/types/cocktail';
-import { useUserSettings } from '~/lib/contexts/UserContext';
+import { useUserSettings } from '~/lib/contexts/UserContextStubs';
 import { useRouter } from 'expo-router';
 import { Image } from 'expo-image';
 import { getCocktailImage } from '~/lib/utils/localImages';

@@ -1,23 +1,16 @@
 import { useState, useEffect, useCallback, useMemo } from 'react';
 import { cocktailDB } from '../database/cocktailDB';
 import { Cocktail, SearchFilters } from '../types/cocktail';
-import { useUserSettings } from '../contexts/UserContext';
 
 export function useCocktails() {
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [allCocktails, setAllCocktails] = useState<Cocktail[]>([]);
-  const { settings } = useUserSettings();
 
-  // Filter cocktails based on subscription status
+  // In development mode, always return all cocktails (treat as premium)
   const cocktails = useMemo(() => {
-    if (!settings?.subscriptionStatus || settings.subscriptionStatus === 'premium') {
-      // Premium users or unset status get all cocktails
-      return allCocktails;
-    }
-    // Free users only get Tier 1 cocktails
-    return allCocktails.filter(cocktail => cocktail.tier === 1);
-  }, [allCocktails, settings?.subscriptionStatus]);
+    return allCocktails;
+  }, [allCocktails]);
 
   const initialize = useCallback(async () => {
     try {
@@ -46,12 +39,9 @@ export function useCocktails() {
 
   const searchCocktails = useCallback((query: string, filters?: SearchFilters) => {
     const results = cocktailDB.searchCocktails(query, filters);
-    // Filter by subscription status
-    if (settings?.subscriptionStatus === 'free') {
-      return results.filter(cocktail => cocktail.tier === 1);
-    }
+    // In development mode, return all results
     return results;
-  }, [settings?.subscriptionStatus]);
+  }, []);
 
   const getCocktailById = useCallback((id: string) => {
     return cocktailDB.getCocktailById(id);
@@ -82,12 +72,9 @@ export function useCocktails() {
   const getAllCocktails = useCallback(() => {
     const all = cocktailDB.getAllCocktails();
     setAllCocktails(all);
-    // Filter by subscription status
-    if (settings?.subscriptionStatus === 'free') {
-      return all.filter(cocktail => cocktail.tier === 1);
-    }
+    // In development mode, return all cocktails
     return all;
-  }, [settings?.subscriptionStatus]);
+  }, []);
 
   const getCategories = useCallback(() => {
     return cocktailDB.getCategories();

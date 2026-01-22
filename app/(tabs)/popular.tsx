@@ -19,7 +19,7 @@ import { useCocktails } from '~/lib/hooks/useCocktails';
 import { Cocktail, UserCocktail } from '~/lib/types/cocktail';
 import { getCocktailImage } from '~/lib/utils/localImages';
 import { getGlassImageNormalized } from '~/lib/utils/glassImageMap';
-import { useFavorites, useUserSettings, useUserCocktails } from '~/lib/contexts/UserContext';
+import { useFavorites, useUserSettings, useUserCocktails } from '~/lib/contexts/UserContextStubs';
 import { MeasurementConverter } from '~/lib/utils/measurementConverter';
 
 const { width: screenWidth } = Dimensions.get('window');

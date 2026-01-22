@@ -7,7 +7,7 @@ import { cn } from '~/lib/cn';
 import { Cocktail } from '~/lib/types/cocktail';
 import { getCocktailImage } from '~/lib/utils/localImages';
 import { getGlassImage } from '~/lib/utils/glassImageMap';
-import { useFavorites, useUserSettings } from '~/lib/contexts/UserContext';
+import { useFavorites, useUserSettings } from '~/lib/contexts/UserContextStubs';
 import { MeasurementConverter } from '~/lib/utils/measurementConverter';
 
 interface CocktailCardProps {

@@ -6,7 +6,7 @@ import FontAwesome from '@expo/vector-icons/FontAwesome';
 import { Text } from '~/components/nativewindui/Text';
 // import { Button } from '~/components/nativewindui/Button'; // Unused
 import { Container } from '~/components/Container';
-import { useVenues, useFavorites, useUserSettings, useUserCocktails } from '~/lib/contexts/UserContext';
+import { useVenues, useFavorites, useUserSettings, useUserCocktails } from '~/lib/contexts/UserContextStubs';
 import { Venue } from '~/lib/types/user';
 import { AddCocktailModal } from '~/components/AddCocktailModal';
 
