@@ -193,14 +193,14 @@ export class UserStorage {
       let deviceId = storage.getString(STORAGE_KEYS.DEVICE_ID);
       if (!deviceId) {
         // Generate a unique device ID
-        deviceId = `device_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
+        deviceId = `device_${Date.now()}_${Math.random().toString(36).substring(2, 11)}`;
         storage.set(STORAGE_KEYS.DEVICE_ID, deviceId);
       }
       return deviceId;
     } catch (error) {
       console.error('Failed to get or create device user ID:', error);
       // Fallback to timestamp-based ID
-      return `device_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
+      return `device_${Date.now()}_${Math.random().toString(36).substring(2, 11)}`;
     }
   }
 

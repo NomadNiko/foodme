@@ -162,7 +162,7 @@ class CocktailDB {
     const now = new Date().toISOString();
     const newCocktail: Cocktail = {
       ...cocktail,
-      id: `user_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`,
+      id: `user_${Date.now()}_${Math.random().toString(36).substring(2, 11)}`,
       createdAt: now,
       updatedAt: now,
     };

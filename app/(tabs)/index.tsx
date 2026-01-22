@@ -3,8 +3,12 @@ import { router } from 'expo-router';
 
 export default function Index() {
   useEffect(() => {
-    // Skip all authentication and go straight to the main app
-    router.replace('/(tabs)/popular');
+    // Add a small delay to ensure root layout is mounted
+    const timer = setTimeout(() => {
+      router.replace('/(tabs)/popular');
+    }, 100);
+
+    return () => clearTimeout(timer);
   }, []);
 
   return null;

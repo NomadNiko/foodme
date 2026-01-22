@@ -2,7 +2,6 @@ import '../global.css';
 import 'expo-dev-client';
 import { ThemeProvider as NavThemeProvider } from '@react-navigation/native';
 import { ActionSheetProvider } from '@expo/react-native-action-sheet';
-import { BottomSheetModalProvider } from '@gorhom/bottom-sheet';
 import { Stack, router } from 'expo-router';
 import { StatusBar } from 'expo-status-bar';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
@@ -80,37 +79,35 @@ export default function RootLayout() {
     <>
       <StatusBar key="root-status-bar-light" style="light" />
       <GestureHandlerRootView style={{ flex: 1, backgroundColor: '#000000' }}>
-        <BottomSheetModalProvider>
-          <ActionSheetProvider>
-            <NavThemeProvider value={NAV_THEME['dark']}>
-              <Stack screenOptions={SCREEN_OPTIONS}>
-                <Stack.Screen name="(tabs)" options={TABS_OPTIONS} />
-                <Stack.Screen name="modal" options={MODAL_OPTIONS} />
-                <Stack.Screen
-                  name="cocktail/[id]"
-                  options={{
-                    headerShown: false,
-                    presentation: 'card',
-                  }}
-                />
-                <Stack.Screen
-                  name="venue/[id]"
-                  options={{
-                    headerShown: false,
-                    presentation: 'card',
-                  }}
-                />
-                <Stack.Screen
-                  name="venue-cocktails/[id]"
-                  options={{
-                    headerShown: false,
-                    presentation: 'card',
-                  }}
-                />
-              </Stack>
-            </NavThemeProvider>
-          </ActionSheetProvider>
-        </BottomSheetModalProvider>
+        <ActionSheetProvider>
+          <NavThemeProvider value={NAV_THEME['dark']}>
+            <Stack screenOptions={SCREEN_OPTIONS}>
+              <Stack.Screen name="(tabs)" options={TABS_OPTIONS} />
+              <Stack.Screen name="modal" options={MODAL_OPTIONS} />
+              <Stack.Screen
+                name="cocktail/[id]"
+                options={{
+                  headerShown: false,
+                  presentation: 'card',
+                }}
+              />
+              <Stack.Screen
+                name="venue/[id]"
+                options={{
+                  headerShown: false,
+                  presentation: 'card',
+                }}
+              />
+              <Stack.Screen
+                name="venue-cocktails/[id]"
+                options={{
+                  headerShown: false,
+                  presentation: 'card',
+                }}
+              />
+            </Stack>
+          </NavThemeProvider>
+        </ActionSheetProvider>
       </GestureHandlerRootView>
     </>
   );
