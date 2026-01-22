@@ -15,9 +15,6 @@ export default function DisclaimerScreen() {
     // In development mode, just navigate to popular
     router.replace('/(tabs)/popular');
   };
-      Alert.alert('Error', 'Failed to save your response. Please try again.');
-    }
-  };
 
   const handleDecline = () => {
     Alert.alert(
