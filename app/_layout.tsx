@@ -6,7 +6,7 @@ import { ActionSheetProvider } from '@expo/react-native-action-sheet';
 
 import { BottomSheetModalProvider } from '@gorhom/bottom-sheet';
 
-import { Stack } from 'expo-router';
+import { Stack, router } from 'expo-router';
 import { StatusBar } from 'expo-status-bar';
 
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
@@ -16,7 +16,8 @@ import { NAV_THEME } from '~/theme';
 import { useEffect, useState, useRef } from 'react';
 import { View, Text, Platform } from 'react-native';
 import { cocktailDB } from '~/lib/database/cocktailDB';
-import { UserProvider } from '~/lib/contexts/UserContext';
+import { UserProvider, useUser } from '~/lib/contexts/UserContext';
+import { DisclaimerStorage } from '~/lib/utils/disclaimerStorage';
 import Purchases, { LOG_LEVEL } from 'react-native-purchases';
 import Constants from 'expo-constants';
 import { ImagePreloader } from '~/lib/utils/imagePreloader';
@@ -210,65 +211,106 @@ export default function RootLayout() {
       <StatusBar key="root-status-bar-light" style="light" />
       {/* WRAP YOUR APP WITH ANY ADDITIONAL PROVIDERS HERE */}
       <UserProvider>
-        <GestureHandlerRootView style={{ flex: 1, backgroundColor: '#000000' }}>
-          <BottomSheetModalProvider>
-            <ActionSheetProvider>
-              <NavThemeProvider value={NAV_THEME[colorScheme]}>
-                <Stack screenOptions={SCREEN_OPTIONS}>
-                  <Stack.Screen name="(tabs)" options={TABS_OPTIONS} />
-                  <Stack.Screen name="modal" options={MODAL_OPTIONS} />
-                  <Stack.Screen
-                    name="disclaimer"
-                    options={{
-                      headerShown: false,
-                      presentation: 'card',
-                      gestureEnabled: false, // Prevent swipe back
-                    }}
-                  />
-                  <Stack.Screen
-                    name="cocktail/[id]"
-                    options={{
-                      headerShown: false,
-                      presentation: 'card',
-                    }}
-                  />
-                  <Stack.Screen
-                    name="venue/[id]"
-                    options={{
-                      headerShown: false,
-                      presentation: 'card',
-                    }}
-                  />
-                  <Stack.Screen
-                    name="venue-cocktails/[id]"
-                    options={{
-                      headerShown: false,
-                      presentation: 'card',
-                    }}
-                  />
-                  <Stack.Screen
-                    name="paywall"
-                    options={{
-                      headerShown: false,
-                      presentation: 'fullScreenModal',
-                      animation: 'fade',
-                    }}
-                  />
-                  <Stack.Screen
-                    name="purchase"
-                    options={{
-                      headerShown: false,
-                      presentation: 'modal',
-                      animation: 'slide_from_bottom',
-                    }}
-                  />
-                </Stack>
-              </NavThemeProvider>
-            </ActionSheetProvider>
-          </BottomSheetModalProvider>
-        </GestureHandlerRootView>
+        <AuthNavigator />
       </UserProvider>
     </>
+  );
+}
+
+function AuthNavigator() {
+  const { userData, isLoading } = useUser();
+  const [hasCheckedAuth, setHasCheckedAuth] = useState(false);
+
+  useEffect(() => {
+    if (isLoading) return;
+
+    // Check if user has accepted disclaimer
+    const hasAcceptedDisclaimer = DisclaimerStorage.hasAcceptedDisclaimer();
+    
+    if (!hasAcceptedDisclaimer) {
+      // User hasn't accepted disclaimer, show disclaimer screen
+      router.replace('/disclaimer');
+    } else {
+      // User has accepted disclaimer, now check subscription status
+      if (userData?.settings?.subscriptionStatus === 'free') {
+        // Free user - show paywall
+        router.replace('/paywall');
+      } else {
+        // Premium user - go to main app
+        router.replace('/(tabs)/popular');
+      }
+    }
+    
+    setHasCheckedAuth(true);
+  }, [isLoading, userData]);
+
+  // Show loading until auth check is complete
+  if (!hasCheckedAuth) {
+    return (
+      <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center', backgroundColor: '#000' }}>
+        <Text style={{ color: '#fff' }}>Checking authentication...</Text>
+      </View>
+    );
+  }
+
+  return (
+    <GestureHandlerRootView style={{ flex: 1, backgroundColor: '#000000' }}>
+      <BottomSheetModalProvider>
+        <ActionSheetProvider>
+          <NavThemeProvider value={NAV_THEME['dark']}>
+            <Stack screenOptions={SCREEN_OPTIONS}>
+              <Stack.Screen name="(tabs)" options={TABS_OPTIONS} />
+              <Stack.Screen name="modal" options={MODAL_OPTIONS} />
+              <Stack.Screen
+                name="disclaimer"
+                options={{
+                  headerShown: false,
+                  presentation: 'card',
+                  gestureEnabled: false, // Prevent swipe back
+                }}
+              />
+              <Stack.Screen
+                name="cocktail/[id]"
+                options={{
+                  headerShown: false,
+                  presentation: 'card',
+                }}
+              />
+              <Stack.Screen
+                name="venue/[id]"
+                options={{
+                  headerShown: false,
+                  presentation: 'card',
+                }}
+              />
+              <Stack.Screen
+                name="venue-cocktails/[id]"
+                options={{
+                  headerShown: false,
+                  presentation: 'card',
+                }}
+              />
+              <Stack.Screen
+                name="paywall"
+                options={{
+                  headerShown: false,
+                  presentation: 'fullScreenModal',
+                  animation: 'fade',
+                }}
+              />
+              <Stack.Screen
+                name="purchase"
+                options={{
+                  headerShown: false,
+                  presentation: 'modal',
+                  animation: 'slide_from_bottom',
+                }}
+              />
+            </Stack>
+          </NavThemeProvider>
+        </ActionSheetProvider>
+      </BottomSheetModalProvider>
+    </GestureHandlerRootView>
   );
 }
 
